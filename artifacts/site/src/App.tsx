@@ -63,13 +63,13 @@ function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="font-serif text-2xl tracking-tighter text-primary font-semibold">
-          Halcyon Partners.
+          TD Advisory.
         </div>
         
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <button onClick={() => scrollTo("ethos")} className="text-sm font-medium hover:text-accent transition-colors">Our Ethos</button>
-          <button onClick={() => scrollTo("practices")} className="text-sm font-medium hover:text-accent transition-colors">Practices</button>
+          <button onClick={() => scrollTo("ethos")} className="text-sm font-medium hover:text-accent transition-colors">Home</button>
+          <button onClick={() => scrollTo("practices")} className="text-sm font-medium hover:text-accent transition-colors">About</button>
           <button onClick={() => scrollTo("services")} className="text-sm font-medium hover:text-accent transition-colors">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-sm font-medium hover:text-accent transition-colors">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="bg-primary text-primary-foreground rounded-none px-6 hover:bg-primary/90">
@@ -86,8 +86,8 @@ function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border p-6 flex flex-col gap-6 shadow-xl">
-          <button onClick={() => scrollTo("ethos")} className="text-lg font-serif text-left">Our Ethos</button>
-          <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">Practices</button>
+          <button onClick={() => scrollTo("ethos")} className="text-lg font-serif text-left">Home</button>
+          <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">About</button>
           <button onClick={() => scrollTo("services")} className="text-lg font-serif text-left">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-lg font-serif text-left">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Start a Conversation</Button>
@@ -110,7 +110,7 @@ function Hero() {
           </RevealText>
           <RevealText delay={0.2}>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We help laboratories and healthcare organizations strengthen operations strategy and management, achieve ISO 15189 accreditation, and build the systems and teams that make growth sustainable.
+              We partner with organizations to elevate operations, strengthen quality systems, and build the systems and teams that make growth sustainable.
             </p>
           </RevealText>
           <RevealText delay={0.4}>
@@ -155,7 +155,7 @@ function Ethos() {
         </FadeIn>
         <FadeIn delay={0.2}>
           <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto">
-            Halcyon Partners was founded by former COOs and plant managers. We don't deliver generic decks; we deliver frameworks that your existing team can actually sustain long after we leave.
+            TD Advisory was founded by former COOs and plant managers. We don't deliver generic decks; we deliver frameworks that your existing team can actually sustain long after we leave.
           </p>
         </FadeIn>
       </div>
@@ -207,19 +207,20 @@ function Practices() {
 
         <PracticeArea 
           title="Operations Consulting"
-          description="We dissect your value chain to eliminate bottlenecks, reduce waste, and improve margins. Whether you are scaling up production or consolidating facilities, we provide the architectural blueprints for efficiency."
+          description="Streamline processes, optimize supply chains, and drive operational excellence across your organization."
           features={[
-            "Supply chain optimization & vendor management",
-            "Lean manufacturing implementation (5S, Kaizen)",
-            "Facility layout and workflow redesign",
-            "Capacity planning and throughput analysis"
+            "Process mapping & optimization",
+            "Supply chain management",
+            "Lean & Six Sigma implementation",
+            "Operational cost reduction",
+            "Performance measurement systems"
           ]}
           image={operationsImg}
         />
 
         <PracticeArea 
           title="Laboratory Quality Management"
-          description="For medical and clinical laboratories, quality is the product. We partner with lab directors and quality managers to design, implement, and maintain accreditation-grade quality systems — so patient results are defensible, audits are uneventful, and the lab earns its reputation every day."
+          description="Implement robust quality systems, achieve ISO certifications, and build a culture of continuous improvement."
           features={[
             "ISO 15189 accreditation preparedness and implementation",
             "Quality management systems training for lab teams",
@@ -232,12 +233,13 @@ function Practices() {
 
         <PracticeArea 
           title="Human Resources Support"
-          description="Your operations are only as resilient as the people running them. We build the foundational HR structures that growing companies need to attract, retain, and develop operational talent."
+          description="Transform your workforce strategy with talent development, organizational design, and change management."
           features={[
-            "Organizational design and role clarity",
-            "Performance management systems for floor staff",
-            "Compliance audits and policy development",
-            "Leadership coaching for new managers"
+            "Organizational design & restructuring",
+            "Talent management strategy",
+            "Change management",
+            "Leadership development programs",
+            "HR policy & compliance"
           ]}
           image={hrImg}
         />
@@ -347,7 +349,7 @@ function Approach() {
           <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
             <div>
               <span className="text-accent uppercase tracking-widest text-sm font-bold mb-4 block">How We Work</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary">The Halcyon Method</h2>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary">The TD Method</h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-md">
               A structured, transparent approach to problem-solving that minimizes disruption to your daily operations.
@@ -471,7 +473,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-8 border-b border-primary-foreground/10 pb-16 mb-8">
         <div>
           <div className="font-serif text-3xl tracking-tighter font-semibold mb-6">
-            Halcyon Partners.
+            TD Advisory.
           </div>
           <p className="text-primary-foreground/60 max-w-sm">
             Grounded expertise for mid-market operations. Measurable results, sustained by your team.
@@ -492,7 +494,7 @@ function Footer() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/40">
-        <p>© {new Date().getFullYear()} Halcyon Partners Advisory LLC. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} TD Advisory LLC. All rights reserved.</p>
         <p className="mt-4 md:mt-0">Designed for operational excellence.</p>
       </div>
     </footer>
