@@ -219,7 +219,7 @@ function Practices() {
         />
 
         <PracticeArea 
-          title="Laboratory Quality Management"
+          title="Laboratory Management"
           description="Implement robust quality systems, achieve ISO certifications, and build a culture of continuous improvement."
           features={[
             "ISO 15189 accreditation preparedness and implementation",
