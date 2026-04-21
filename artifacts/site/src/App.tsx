@@ -70,6 +70,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           <button onClick={() => scrollTo("ethos")} className="text-sm font-medium hover:text-accent transition-colors">Our Ethos</button>
           <button onClick={() => scrollTo("practices")} className="text-sm font-medium hover:text-accent transition-colors">Practices</button>
+          <button onClick={() => scrollTo("services")} className="text-sm font-medium hover:text-accent transition-colors">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-sm font-medium hover:text-accent transition-colors">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="bg-primary text-primary-foreground rounded-none px-6 hover:bg-primary/90">
             Start a Conversation
@@ -87,6 +88,7 @@ function Navbar() {
         <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border p-6 flex flex-col gap-6 shadow-xl">
           <button onClick={() => scrollTo("ethos")} className="text-lg font-serif text-left">Our Ethos</button>
           <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">Practices</button>
+          <button onClick={() => scrollTo("services")} className="text-lg font-serif text-left">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-lg font-serif text-left">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Start a Conversation</Button>
         </div>
@@ -108,7 +110,7 @@ function Hero() {
           </RevealText>
           <RevealText delay={0.2}>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We help mid-market companies streamline operations, guide laboratories to ISO/IEC 17025 accreditation, and build resilient HR foundations. Grounded advice for leaders who need results.
+              We help laboratories and healthcare organizations achieve ISO 15189 accreditation, design efficient operations, and build the systems and teams that make growth sustainable.
             </p>
           </RevealText>
           <RevealText delay={0.4}>
@@ -217,10 +219,10 @@ function Practices() {
 
         <PracticeArea 
           title="Laboratory Quality Management"
-          description="For testing and calibration laboratories, quality is the product. We partner with lab directors and quality managers to design, implement, and maintain accreditation-grade quality systems — so results are defensible, audits are uneventful, and the lab earns its reputation every day."
+          description="For medical and clinical laboratories, quality is the product. We partner with lab directors and quality managers to design, implement, and maintain accreditation-grade quality systems — so patient results are defensible, audits are uneventful, and the lab earns its reputation every day."
           features={[
-            "ISO/IEC 17025 readiness, implementation, and accreditation support",
-            "Method validation, verification, and measurement uncertainty",
+            "ISO 15189 accreditation preparedness and implementation",
+            "Quality management systems training for lab teams",
             "Internal audits, proficiency testing, and CAPA programs",
             "Document control, traceability, and quality manual development"
           ]}
@@ -239,6 +241,92 @@ function Practices() {
           ]}
           image={hrImg}
         />
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  const services = [
+    {
+      name: "Quality Management Systems Training",
+      desc: "Hands-on training that gives your team fluency in QMS principles, documentation discipline, and audit readiness.",
+    },
+    {
+      name: "ISO 15189 Accreditation Preparedness",
+      desc: "End-to-end guidance for medical laboratories pursuing or maintaining ISO 15189 accreditation — from gap analysis to assessment day.",
+    },
+    {
+      name: "Operations Management",
+      desc: "Day-to-day operational leadership and improvement — workflow, throughput, capacity, and cost discipline.",
+    },
+    {
+      name: "Process Design and Optimization",
+      desc: "Mapping, redesigning, and instrumenting processes so quality and speed stop being a tradeoff.",
+    },
+    {
+      name: "Laboratory Design and Setup",
+      desc: "Greenfield and expansion projects — layout, equipment selection, workflow planning, and commissioning support.",
+    },
+    {
+      name: "LIS and Healthcare Information Systems",
+      desc: "Selection, configuration, and rollout of laboratory and healthcare information systems that actually fit how your team works.",
+    },
+    {
+      name: "Regulations and Registrations",
+      desc: "Navigating the regulatory and licensing requirements that stand between you and operating with confidence.",
+    },
+    {
+      name: "Market Access and Penetration",
+      desc: "Practical go-to-market support for clinical and lab services — positioning, partnerships, and commercial pathways.",
+    },
+    {
+      name: "Business Strategy",
+      desc: "Strategic clarity for owners and executive teams — where to focus, what to build, and what to walk away from.",
+    },
+    {
+      name: "Team Building and Management",
+      desc: "Hiring frameworks, role design, and leadership coaching so your people scale alongside your operation.",
+    },
+  ];
+
+  return (
+    <section id="services" className="py-24 md:py-32 px-6 bg-secondary">
+      <div className="max-w-7xl mx-auto">
+        <FadeIn>
+          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16 md:mb-20">
+            <div className="max-w-2xl">
+              <span className="text-accent uppercase tracking-widest text-sm font-bold mb-4 block">Service Offerings</span>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary leading-tight">
+                Ten disciplines.<br />One standard of work.
+              </h2>
+            </div>
+            <p className="text-lg text-muted-foreground max-w-md">
+              Every engagement is shaped from these capabilities — combined to fit the problem in front of you.
+            </p>
+          </div>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+          {services.map((s, i) => (
+            <FadeIn key={s.name} delay={(i % 3) * 0.08}>
+              <div className="group h-full bg-background p-8 md:p-10 flex flex-col transition-colors duration-300 hover:bg-primary">
+                <div className="flex items-start justify-between gap-4 mb-6">
+                  <span className="text-sm font-mono text-accent group-hover:text-accent transition-colors">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <ArrowUpRight className="h-5 w-5 text-primary/30 group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+                </div>
+                <h3 className="text-xl md:text-2xl font-serif text-primary mb-4 leading-snug group-hover:text-primary-foreground transition-colors">
+                  {s.name}
+                </h3>
+                <p className="text-muted-foreground text-base leading-relaxed group-hover:text-primary-foreground/80 transition-colors">
+                  {s.desc}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -353,7 +441,7 @@ function Contact() {
                   </SelectTrigger>
                   <SelectContent className="rounded-none">
                     <SelectItem value="ops">Operations Consulting</SelectItem>
-                    <SelectItem value="quality">Laboratory Quality (ISO/IEC 17025)</SelectItem>
+                    <SelectItem value="quality">Laboratory Quality (ISO 15189)</SelectItem>
                     <SelectItem value="hr">Human Resources Support</SelectItem>
                     <SelectItem value="other">General Inquiry</SelectItem>
                   </SelectContent>
@@ -419,6 +507,7 @@ function Home() {
         <Hero />
         <Ethos />
         <Practices />
+        <Services />
         <Approach />
         <Contact />
       </main>
