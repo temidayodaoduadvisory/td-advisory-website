@@ -309,9 +309,9 @@ function Services() {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-primary/10 border border-primary/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-primary/10 border border-primary/10">
           {services.map((s, i) => (
-            <FadeIn key={s.name} delay={(i % 4) * 0.06}>
+            <FadeIn key={s.name} delay={(i % 5) * 0.06}>
               <div className="group h-full bg-background p-5 md:p-6 flex flex-col transition-colors duration-300 hover:bg-primary">
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <span className="text-xs font-mono text-accent">
@@ -403,7 +403,7 @@ function Contact() {
             <div className="space-y-8">
               <div>
                 <h4 className="text-sm uppercase tracking-widest text-accent font-bold mb-2">Office</h4>
-                <p className="text-primary font-serif text-lg">Oguntona Crescent,<br />Gbagada Phase 1, Lagos NG</p>
+                <p className="text-primary font-serif text-lg">Gbagada Phase 1, Lagos NG</p>
               </div>
               <div>
                 <h4 className="text-sm uppercase tracking-widest text-accent font-bold mb-2">Direct</h4>
@@ -442,7 +442,7 @@ function Contact() {
                     <SelectItem value="ops">Operations Consulting</SelectItem>
                     <SelectItem value="quality">Laboratory Quality (ISO 15189)</SelectItem>
                     <SelectItem value="hr">Human Resources Support</SelectItem>
-                    <SelectItem value="other">General Inquiry</SelectItem>
+                    <SelectItem value="other">General Enquiry</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -453,7 +453,7 @@ function Contact() {
               </div>
 
               <Button type="submit" disabled={isSubmitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
-                {isSubmitting ? "Sending..." : "Submit Inquiry"}
+                {isSubmitting ? "Sending..." : "Submit Enquiry"}
                 {!isSubmitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
               </Button>
             </form>
@@ -479,8 +479,8 @@ function Footer() {
         <div className="flex gap-16">
           <div className="flex flex-col gap-3">
             <h5 className="font-bold uppercase tracking-widest text-accent text-xs mb-2">Menu</h5>
-            <button onClick={() => document.getElementById("ethos")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Ethos</button>
-            <button onClick={() => document.getElementById("practices")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Practices</button>
+            <button onClick={() => document.getElementById("ethos")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Home</button>
+            <button onClick={() => document.getElementById("practices")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">About</button>
             <button onClick={() => document.getElementById("approach")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Approach</button>
           </div>
           <div className="flex flex-col gap-3">
