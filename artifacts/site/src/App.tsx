@@ -110,7 +110,7 @@ function Hero() {
           </RevealText>
           <RevealText delay={0.2}>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We help laboratories and healthcare organizations achieve ISO 15189 accreditation, design efficient operations, and build the systems and teams that make growth sustainable.
+              We help laboratories and healthcare organizations strengthen operations strategy and management, achieve ISO 15189 accreditation, and build the systems and teams that make growth sustainable.
             </p>
           </RevealText>
           <RevealText delay={0.4}>
