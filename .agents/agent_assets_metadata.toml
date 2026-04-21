@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "8KFPA94PNvky8hxUOumoH"
+uri = "file://artifacts/site/src/assets/hero.png"
+type = "image"
+title = "Sunlit modern office interior"
+
+[[generated]]
+id = "Obo9QuBJrDfz0QVFE0UEX"
+uri = "file://artifacts/site/src/assets/operations.png"
+type = "image"
+title = "Abstract clean architectural lines"
+
+[[generated]]
+id = "Od0yTo8vuauuw-a2GHqge"
+uri = "file://artifacts/site/src/assets/quality.png"
+type = "image"
+title = "Organized desk macro shot"
+
+[[generated]]
+id = "y3ftlbgdY0l-2CJRtdQpQ"
+uri = "file://artifacts/site/src/assets/hr.png"
+type = "image"
+title = "Warm meeting room chairs"
