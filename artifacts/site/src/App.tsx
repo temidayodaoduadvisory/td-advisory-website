@@ -108,7 +108,7 @@ function Hero() {
           </RevealText>
           <RevealText delay={0.2}>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We help mid-market companies streamline operations, achieve quality certifications, and build resilient HR foundations. Grounded advice for leaders who need results.
+              We help mid-market companies streamline operations, guide laboratories to ISO/IEC 17025 accreditation, and build resilient HR foundations. Grounded advice for leaders who need results.
             </p>
           </RevealText>
           <RevealText delay={0.4}>
@@ -216,13 +216,13 @@ function Practices() {
         />
 
         <PracticeArea 
-          title="Quality Management"
-          description="Quality isn't a department; it's a culture. We guide mid-market firms through the rigorous process of establishing, auditing, and certifying robust quality management systems that stand up to any standard."
+          title="Laboratory Quality Management"
+          description="For testing and calibration laboratories, quality is the product. We partner with lab directors and quality managers to design, implement, and maintain accreditation-grade quality systems — so results are defensible, audits are uneventful, and the lab earns its reputation every day."
           features={[
-            "ISO 9001 readiness and implementation",
-            "Root cause analysis and corrective action frameworks",
-            "Supplier quality auditing programs",
-            "Statistical process control (SPC) deployment"
+            "ISO/IEC 17025 readiness, implementation, and accreditation support",
+            "Method validation, verification, and measurement uncertainty",
+            "Internal audits, proficiency testing, and CAPA programs",
+            "Document control, traceability, and quality manual development"
           ]}
           image={qualityImg}
           reversed
@@ -353,7 +353,7 @@ function Contact() {
                   </SelectTrigger>
                   <SelectContent className="rounded-none">
                     <SelectItem value="ops">Operations Consulting</SelectItem>
-                    <SelectItem value="quality">Quality Management (ISO)</SelectItem>
+                    <SelectItem value="quality">Laboratory Quality (ISO/IEC 17025)</SelectItem>
                     <SelectItem value="hr">Human Resources Support</SelectItem>
                     <SelectItem value="other">General Inquiry</SelectItem>
                   </SelectContent>

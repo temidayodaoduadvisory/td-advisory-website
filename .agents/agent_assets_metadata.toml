@@ -24,3 +24,9 @@ id = "y3ftlbgdY0l-2CJRtdQpQ"
 uri = "file://artifacts/site/src/assets/hr.png"
 type = "image"
 title = "Warm meeting room chairs"
+
+[[generated]]
+id = "d5ccPiWwoBB9q4RR--iUD"
+uri = "file://attached_assets/generated_images/generated_image.png"
+type = "image"
+title = "generated_image"
