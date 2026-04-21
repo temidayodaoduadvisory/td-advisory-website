@@ -73,7 +73,7 @@ function Navbar() {
           <button onClick={() => scrollTo("services")} className="text-sm font-medium hover:text-accent transition-colors">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-sm font-medium hover:text-accent transition-colors">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="bg-primary text-primary-foreground rounded-none px-6 hover:bg-primary/90">
-            Start a Conversation
+            Book an Appointment
           </Button>
         </div>
 
@@ -90,7 +90,7 @@ function Navbar() {
           <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">About</button>
           <button onClick={() => scrollTo("services")} className="text-lg font-serif text-left">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-lg font-serif text-left">Approach</button>
-          <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Start a Conversation</Button>
+          <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Book an Appointment</Button>
         </div>
       )}
     </nav>
@@ -155,7 +155,7 @@ function Ethos() {
         </FadeIn>
         <FadeIn delay={0.2}>
           <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto">
-            TD Advisory was founded by former COOs and plant managers. We don't deliver generic decks; we deliver frameworks that your existing team can actually sustain long after we leave.
+            Founded on the belief that operational excellence drives sustainable growth, TD Advisory partners with organizations to unlock their full potential. We bring deep expertise in operations, quality management, and human resources to help organizations thrive.
           </p>
         </FadeIn>
       </div>
@@ -309,22 +309,19 @@ function Services() {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-primary/10 border border-primary/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-primary/10 border border-primary/10">
           {services.map((s, i) => (
-            <FadeIn key={s.name} delay={(i % 3) * 0.08}>
-              <div className="group h-full bg-background p-8 md:p-10 flex flex-col transition-colors duration-300 hover:bg-primary">
-                <div className="flex items-start justify-between gap-4 mb-6">
-                  <span className="text-sm font-mono text-accent group-hover:text-accent transition-colors">
+            <FadeIn key={s.name} delay={(i % 4) * 0.06}>
+              <div className="group h-full bg-background p-5 md:p-6 flex flex-col transition-colors duration-300 hover:bg-primary">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <span className="text-xs font-mono text-accent">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <ArrowUpRight className="h-5 w-5 text-primary/30 group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+                  <ArrowUpRight className="h-4 w-4 text-primary/30 group-hover:text-accent group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-300" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-serif text-primary mb-4 leading-snug group-hover:text-primary-foreground transition-colors">
+                <h3 className="text-base md:text-lg font-serif text-primary leading-snug group-hover:text-primary-foreground transition-colors">
                   {s.name}
                 </h3>
-                <p className="text-muted-foreground text-base leading-relaxed group-hover:text-primary-foreground/80 transition-colors">
-                  {s.desc}
-                </p>
               </div>
             </FadeIn>
           ))}
@@ -349,7 +346,7 @@ function Approach() {
           <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
             <div>
               <span className="text-accent uppercase tracking-widest text-sm font-bold mb-4 block">How We Work</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-primary">The TD Method</h2>
+              <h2 className="text-4xl md:text-5xl font-serif text-primary">The TD Advisory Method</h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-md">
               A structured, transparent approach to problem-solving that minimizes disruption to your daily operations.
@@ -406,11 +403,11 @@ function Contact() {
             <div className="space-y-8">
               <div>
                 <h4 className="text-sm uppercase tracking-widest text-accent font-bold mb-2">Office</h4>
-                <p className="text-primary font-serif text-lg">1420 5th Avenue, Suite 2200<br />Seattle, WA 98101</p>
+                <p className="text-primary font-serif text-lg">Oguntona Crescent,<br />Gbagada Phase 1, Lagos NG</p>
               </div>
               <div>
                 <h4 className="text-sm uppercase tracking-widest text-accent font-bold mb-2">Direct</h4>
-                <p className="text-primary font-serif text-lg">inquiries@halcyonpartners.com<br />+1 (206) 555-0198</p>
+                <p className="text-primary font-serif text-lg">enquiries@tdadvisory.co</p>
               </div>
             </div>
           </FadeIn>
