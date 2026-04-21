@@ -110,7 +110,7 @@ function Hero() {
           </RevealText>
           <RevealText delay={0.2}>
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We partner with organizations to elevate operations, strengthen quality systems, and build the systems and teams that make growth sustainable.
+              We partner with organizations to elevate operations, strengthen quality systems, and empower the teams that make growth sustainable.
             </p>
           </RevealText>
           <RevealText delay={0.4}>
