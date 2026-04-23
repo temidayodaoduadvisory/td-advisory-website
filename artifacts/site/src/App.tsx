@@ -212,7 +212,6 @@ function Practices() {
             "Process mapping & optimization",
             "Supply chain management",
             "Lean & Six Sigma implementation",
-            "Operational cost reduction",
             "Operations Office Outsourcing",
             "Performance measurement systems"
           ]}
