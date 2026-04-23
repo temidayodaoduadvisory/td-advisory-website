@@ -213,6 +213,7 @@ function Practices() {
             "Supply chain management",
             "Lean & Six Sigma implementation",
             "Operational cost reduction",
+            "Operations Office Outsourcing",
             "Performance measurement systems"
           ]}
           image={operationsImg}
@@ -222,6 +223,7 @@ function Practices() {
           title="Laboratory Management"
           description="Implement robust quality systems, achieve ISO certifications, and build a culture of continuous improvement."
           features={[
+            "Laboratory Design and Set-up",
             "ISO 15189 accreditation preparedness and implementation",
             "Quality management systems training for lab teams",
             "Internal audits, proficiency testing, and CAPA programs",
