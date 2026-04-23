@@ -2,7 +2,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useToast } from "@/hooks/use-toast";
+import { useForm, ValidationError } from "@formspree/react";
 import NotFound from "@/pages/not-found";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -372,24 +372,8 @@ function Approach() {
 }
 
 function Contact() {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: "Message received.",
-        description: "One of our senior partners will contact you within 24 hours.",
-        duration: 5000,
-      });
-      (e.target as HTMLFormElement).reset();
-    }, 1500);
-  };
+  const [state, handleSubmit] = useForm("xaqaanbr");
+  const [interest, setInterest] = useState("");
 
   return (
     <section id="contact" className="py-24 md:py-32 px-6">
@@ -416,48 +400,60 @@ function Contact() {
 
         <FadeIn delay={0.2}>
           <div className="bg-white p-8 md:p-12 border border-border shadow-sm">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
-                  <Input id="name" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+            {state.succeeded ? (
+              <div className="flex flex-col items-center justify-center h-full py-16 text-center space-y-4">
+                <CheckCircle2 className="w-12 h-12 text-accent" />
+                <h3 className="text-2xl font-serif text-primary">Message received.</h3>
+                <p className="text-muted-foreground">One of our senior partners will contact you within 24 hours.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
+                    <Input id="name" name="name" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                    <ValidationError field="name" errors={state.errors} className="text-xs text-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="company" className="text-sm font-medium text-primary">Company</label>
+                    <Input id="company" name="company" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                  </div>
                 </div>
+                
                 <div className="space-y-2">
-                  <label htmlFor="company" className="text-sm font-medium text-primary">Company</label>
-                  <Input id="company" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                  <label htmlFor="email" className="text-sm font-medium text-primary">Work Email</label>
+                  <Input id="email" name="email" type="email" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                  <ValidationError field="email" errors={state.errors} className="text-xs text-red-500" />
                 </div>
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-primary">Work Email</label>
-                <Input id="email" type="email" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
-              </div>
 
-              <div className="space-y-2">
-                <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
-                <Select required>
-                  <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
-                    <SelectValue placeholder="Select a practice area" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-none">
-                    <SelectItem value="ops">Operations Consulting</SelectItem>
-                    <SelectItem value="quality">Laboratory Quality (ISO 15189)</SelectItem>
-                    <SelectItem value="hr">Human Resources Support</SelectItem>
-                    <SelectItem value="other">General Enquiry</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                <div className="space-y-2">
+                  <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
+                  <input type="hidden" name="interest" value={interest} />
+                  <Select required onValueChange={setInterest}>
+                    <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
+                      <SelectValue placeholder="Select a practice area" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-none">
+                      <SelectItem value="Operations Consulting">Operations Consulting</SelectItem>
+                      <SelectItem value="Laboratory Management (ISO 15189)">Laboratory Management (ISO 15189)</SelectItem>
+                      <SelectItem value="Human Resources Support">Human Resources Support</SelectItem>
+                      <SelectItem value="General Enquiry">General Enquiry</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-primary">Brief Description of Needs</label>
-                <Textarea id="message" required className="rounded-none min-h-[120px] bg-background border-border focus-visible:ring-primary focus-visible:border-primary resize-y" />
-              </div>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="text-sm font-medium text-primary">Brief Description of Needs</label>
+                  <Textarea id="message" name="message" required className="rounded-none min-h-[120px] bg-background border-border focus-visible:ring-primary focus-visible:border-primary resize-y" />
+                  <ValidationError field="message" errors={state.errors} className="text-xs text-red-500" />
+                </div>
 
-              <Button type="submit" disabled={isSubmitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
-                {isSubmitting ? "Sending..." : "Submit Enquiry"}
-                {!isSubmitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-              </Button>
-            </form>
+                <Button type="submit" disabled={state.submitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
+                  {state.submitting ? "Sending..." : "Submit Enquiry"}
+                  {!state.submitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                </Button>
+              </form>
+            )}
           </div>
         </FadeIn>
       </div>
