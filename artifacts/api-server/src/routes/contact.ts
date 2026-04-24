@@ -1,17 +1,39 @@
 import { Router } from "express";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
 const router = Router();
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.zoho.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+async function getResendClient(): Promise<{ client: Resend; fromEmail: string }> {
+  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
+  const xReplitToken = process.env.REPL_IDENTITY
+    ? "repl " + process.env.REPL_IDENTITY
+    : process.env.WEB_REPL_RENEWAL
+    ? "depl " + process.env.WEB_REPL_RENEWAL
+    : null;
+
+  if (!xReplitToken) throw new Error("X-Replit-Token not found");
+
+  const connectionSettings = await fetch(
+    "https://" + hostname + "/api/v2/connection?include_secrets=true&connector_names=resend",
+    {
+      headers: {
+        Accept: "application/json",
+        "X-Replit-Token": xReplitToken,
+      },
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => data.items?.[0]);
+
+  if (!connectionSettings?.settings?.api_key) {
+    throw new Error("Resend not connected");
+  }
+
+  return {
+    client: new Resend(connectionSettings.settings.api_key),
+    fromEmail: connectionSettings.settings.from_email,
+  };
+}
 
 router.post("/contact", async (req, res) => {
   const { name, company, email, interest, message } = req.body;
@@ -21,8 +43,10 @@ router.post("/contact", async (req, res) => {
   }
 
   try {
-    await transporter.sendMail({
-      from: `"TD Advisory Website" <${process.env.SMTP_USER}>`,
+    const { client, fromEmail } = await getResendClient();
+
+    await client.emails.send({
+      from: fromEmail || "TD Advisory Website <onboarding@resend.dev>",
       to: "enquiries@tdadvisory.co",
       replyTo: email,
       subject: `New Enquiry: ${interest || "General"} — ${name}`,
