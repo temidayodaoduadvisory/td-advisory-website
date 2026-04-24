@@ -2,7 +2,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useForm, ValidationError } from "@formspree/react";
+import { useToast } from "@/hooks/use-toast";
 import NotFound from "@/pages/not-found";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -372,8 +372,42 @@ function Approach() {
 }
 
 function Contact() {
-  const [state, handleSubmit] = useForm("xaqaanbr");
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
   const [interest, setInterest] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          company: data.get("company"),
+          email: data.get("email"),
+          interest,
+          message: data.get("message"),
+        }),
+      });
+
+      if (res.ok) {
+        setSucceeded(true);
+      } else {
+        const { error } = await res.json();
+        toast({ title: "Something went wrong.", description: error || "Please try again.", variant: "destructive" });
+      }
+    } catch {
+      toast({ title: "Network error.", description: "Please check your connection and try again.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-24 md:py-32 px-6">
@@ -384,7 +418,6 @@ function Contact() {
             <p className="text-lg text-muted-foreground mb-12 max-w-md">
               Whether you're facing a specific bottleneck or need a comprehensive operational audit, we're ready to help.
             </p>
-            
             <div className="space-y-8">
               <div>
                 <h4 className="text-sm uppercase tracking-widest text-accent font-bold mb-2">Office</h4>
@@ -400,7 +433,7 @@ function Contact() {
 
         <FadeIn delay={0.2}>
           <div className="bg-white p-8 md:p-12 border border-border shadow-sm">
-            {state.succeeded ? (
+            {succeeded ? (
               <div className="flex flex-col items-center justify-center h-full py-16 text-center space-y-4">
                 <CheckCircle2 className="w-12 h-12 text-accent" />
                 <h3 className="text-2xl font-serif text-primary">Message received.</h3>
@@ -412,24 +445,19 @@ function Contact() {
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
                     <Input id="name" name="name" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
-                    <ValidationError field="name" errors={state.errors} className="text-xs text-red-500" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="company" className="text-sm font-medium text-primary">Company</label>
-                    <Input id="company" name="company" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                    <Input id="company" name="company" className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
                   </div>
                 </div>
-                
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium text-primary">Work Email</label>
                   <Input id="email" name="email" type="email" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
-                  <ValidationError field="email" errors={state.errors} className="text-xs text-red-500" />
                 </div>
-
                 <div className="space-y-2">
                   <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
-                  <input type="hidden" name="interest" value={interest} />
-                  <Select required onValueChange={setInterest}>
+                  <Select onValueChange={setInterest}>
                     <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
                       <SelectValue placeholder="Select a practice area" />
                     </SelectTrigger>
@@ -441,16 +469,13 @@ function Contact() {
                     </SelectContent>
                   </Select>
                 </div>
-
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium text-primary">Brief Description of Needs</label>
                   <Textarea id="message" name="message" required className="rounded-none min-h-[120px] bg-background border-border focus-visible:ring-primary focus-visible:border-primary resize-y" />
-                  <ValidationError field="message" errors={state.errors} className="text-xs text-red-500" />
                 </div>
-
-                <Button type="submit" disabled={state.submitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
-                  {state.submitting ? "Sending..." : "Submit Enquiry"}
-                  {!state.submitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                <Button type="submit" disabled={isSubmitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
+                  {isSubmitting ? "Sending..." : "Submit Enquiry"}
+                  {!isSubmitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                 </Button>
               </form>
             )}
