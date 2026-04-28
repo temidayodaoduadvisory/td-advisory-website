@@ -14,7 +14,7 @@ router.post("/contact", async (req, res) => {
     const client = new Resend(process.env.RESEND_API_KEY);
 
     const result = await client.emails.send({
-      from: "TD Advisory Website <noreply@tdadvisory.co>",
+      from: "TD Advisory Website <noreply@enquiries.tdadvisory.co>",
       to: "enquiries@tdadvisory.co",
       replyTo: email,
       subject: `New Enquiry: ${interest || "General"} — ${name}`,
