@@ -98,48 +98,120 @@ function Navbar() {
 }
 
 function Hero() {
+  const { scrollY } = useScroll();
+  const imageY = useTransform(scrollY, [0, 700], [0, -90]);
+
+  const lines = [
+    { text: "Senior", italic: false },
+    { text: "expertise,", italic: true },
+    { text: "without the", italic: false },
+    { text: "overhead.", italic: false },
+  ];
+
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden min-h-[90vh] flex flex-col justify-center">
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <div className="max-w-2xl z-10">
-          <RevealText>
-            <h1 className="text-5xl md:text-7xl font-serif text-primary leading-[1.05] tracking-tight mb-6">
-              Senior expertise, <br />
-              <span className="italic text-accent">without the overhead.</span>
-            </h1>
-          </RevealText>
-          <RevealText delay={0.2}>
-            <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed">
-              We partner with organizations to elevate operations, strengthen quality systems, and empower the teams that make growth sustainable.
-            </p>
-          </RevealText>
-          <RevealText delay={0.4}>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="rounded-none text-base h-14 px-8 bg-primary hover:bg-primary/90" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
-                Discuss Your Challenge
-              </Button>
-              <Button size="lg" variant="outline" className="rounded-none text-base h-14 px-8 border-primary/20 hover:bg-primary/5" onClick={() => document.getElementById("practices")?.scrollIntoView({ behavior: "smooth" })}>
-                Explore Our Practices
-              </Button>
+    <section className="relative min-h-screen overflow-hidden bg-background">
+      {/* Background image — full screen on mobile, right 58% on desktop */}
+      <motion.div
+        className="absolute inset-0 lg:left-[42%] z-0"
+        style={{ y: imageY }}
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <img
+          src={heroImg}
+          alt="Modern consulting office"
+          className="w-full h-full object-cover"
+        />
+        {/* Mobile: top fade so text stays readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background/20 lg:hidden" />
+        {/* Desktop: left-to-right, image breathes fully on the right */}
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-background from-[28%] via-background/50 via-[50%] to-transparent to-[72%]" />
+      </motion.div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 min-h-screen flex flex-col justify-between pt-28 pb-10 md:pt-32 md:pb-12">
+
+        {/* Eyebrow label */}
+        <motion.div
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="flex items-center gap-3"
+        >
+          <div className="w-10 h-px bg-accent" />
+          <span className="text-xs uppercase tracking-[0.22em] text-accent font-semibold">
+            Operations · Quality · People
+          </span>
+        </motion.div>
+
+        {/* Staggered headline */}
+        <div>
+          {lines.map((line, i) => (
+            <div key={i} className="overflow-hidden">
+              <motion.h1
+                initial={{ y: "105%" }}
+                animate={{ y: 0 }}
+                transition={{
+                  duration: 0.85,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.3 + i * 0.1,
+                }}
+                className={`block font-serif leading-[0.92] tracking-tight text-[clamp(40px,5.2vw,84px)] ${
+                  line.italic ? "italic text-accent" : "text-primary"
+                }`}
+              >
+                {line.text}
+              </motion.h1>
             </div>
-          </RevealText>
+          ))}
         </div>
-        <div className="relative h-[400px] lg:h-[600px] w-full">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="absolute inset-0"
-          >
-            <div className="absolute inset-0 bg-primary/10 mix-blend-multiply z-10" />
-            <img src={heroImg} alt="Sunlit modern office" className="w-full h-full object-cover shadow-2xl" />
-          </motion.div>
-          
-          {/* Decorative element */}
-          <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-accent/10 -z-10" />
-          <div className="absolute -top-6 -right-6 w-32 h-32 border border-primary/20 -z-10" />
-        </div>
+
+        {/* Bottom row: description + CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.85 }}
+          className="flex flex-col md:flex-row items-start md:items-end gap-6 max-w-2xl lg:max-w-none"
+        >
+          <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-sm">
+            We partner with organizations to elevate operations, strengthen quality systems, and empower the teams that make growth sustainable.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 md:ml-auto shrink-0">
+            <Button
+              size="lg"
+              className="rounded-none text-base h-14 px-8 bg-primary hover:bg-primary/90"
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Discuss Your Challenge
+            </Button>
+            <Button
+              size="lg"
+              variant="ghost"
+              className="rounded-none text-base h-14 px-8 hover:bg-primary/5 group text-primary"
+              onClick={() => document.getElementById("practices")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              Our Work
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+      >
+        <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">Scroll</span>
+        <motion.div
+          animate={{ scaleY: [0.4, 1, 0.4], opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-px h-10 bg-primary/25 origin-top"
+        />
+      </motion.div>
     </section>
   );
 }
