@@ -1,1 +1,66 @@
-[]
+[
+  {
+    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "position": 1,
+    "filepath": "src/pages/slides/Slide01Title.tsx",
+    "title": "Title",
+    "description": "Senior Expertise, Without the Overhead.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "position": 2,
+    "filepath": "src/pages/slides/Slide02WhoWeAre.tsx",
+    "title": "Who We Are",
+    "description": "About TD Advisory and founding ethos.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+    "position": 3,
+    "filepath": "src/pages/slides/Slide03Operations.tsx",
+    "title": "Operations Consulting",
+    "description": "Practice Area 01 — operations capabilities.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+    "position": 4,
+    "filepath": "src/pages/slides/Slide04Laboratory.tsx",
+    "title": "Laboratory Management",
+    "description": "Practice Area 02 — laboratory and ISO 15189.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "e5f6a7b8-c9d0-1234-efab-345678901234",
+    "position": 5,
+    "filepath": "src/pages/slides/Slide05HR.tsx",
+    "title": "Human Resources Support",
+    "description": "Practice Area 03 — HR and talent.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+    "position": 6,
+    "filepath": "src/pages/slides/Slide06Services.tsx",
+    "title": "Ten Disciplines. One Standard of Work.",
+    "description": "Full service offering overview.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+    "position": 7,
+    "filepath": "src/pages/slides/Slide07Method.tsx",
+    "title": "The TD Advisory Method",
+    "description": "Four-step approach to every engagement.",
+    "speakerNotes": ""
+  },
+  {
+    "id": "b8c9d0e1-f2a3-4567-bcde-678901234567",
+    "position": 8,
+    "filepath": "src/pages/slides/Slide08Closing.tsx",
+    "title": "Let's Discuss Your Operations.",
+    "description": "Contact information and closing.",
+    "speakerNotes": ""
+  }
+]
