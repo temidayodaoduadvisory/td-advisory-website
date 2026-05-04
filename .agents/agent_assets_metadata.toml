@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "8KFPA94PNvky8hxUOumoH"
@@ -30,3 +29,9 @@ id = "d5ccPiWwoBB9q4RR--iUD"
 uri = "file://attached_assets/generated_images/generated_image.png"
 type = "image"
 title = "generated_image"
+
+[[outputs]]
+id = "upgiE16ksa0O8aeaqj4WY"
+uri = "file://.local/outputs/TD-Advisory-Website.pptx"
+type = "slides"
+title = "TD Advisory Website.pptx"

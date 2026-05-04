@@ -11,13 +11,13 @@
 }
 
 :root {
-  --slide-primary: #2C4A2E;
-  --slide-accent: #C4622D;
-  --slide-bg: #F5F0E8;
-  --slide-text: #1A2B1C;
-  --slide-muted: #7A6E62;
-  --font-display-family: "Playfair Display", Georgia, serif;
-  --font-body-family: "Source Sans 3", "Helvetica Neue", sans-serif;
+  --slide-primary: #1E3A5F;
+  --slide-accent: #0D9488;
+  --slide-bg: #FAFBFC;
+  --slide-text: #1E3A5F;
+  --slide-muted: #64748B;
+  --font-display-family: "Inter", system-ui, sans-serif;
+  --font-body-family: "Inter", system-ui, sans-serif;
   color-scheme: light;
 }
 
