@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, CheckCircle2, ChevronRight, Menu, X, ArrowUpRight } from "lucide-react";
+import { ArrowRight, CheckCircle2, ChevronRight, Menu, X, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
 import { useState, useRef } from "react";
 
 // Image imports
@@ -73,7 +73,7 @@ function Navbar() {
           <button onClick={() => scrollTo("services")} className="text-sm font-medium hover:text-accent transition-colors">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-sm font-medium hover:text-accent transition-colors">Approach</button>
           <Button onClick={() => scrollTo("contact")} className="bg-primary text-primary-foreground rounded-none px-6 hover:bg-primary/90">
-            Book an Appointment
+            Book a Consultation
           </Button>
         </div>
 
@@ -90,14 +90,14 @@ function Navbar() {
           <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">About</button>
           <button onClick={() => scrollTo("services")} className="text-lg font-serif text-left">Services</button>
           <button onClick={() => scrollTo("approach")} className="text-lg font-serif text-left">Approach</button>
-          <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Book an Appointment</Button>
+          <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Book a Consultation</Button>
         </div>
       )}
     </nav>
   );
 }
 
-function Hero() {
+function Hero({ onBookConsultation }: { onBookConsultation: () => void }) {
   const { scrollY } = useScroll();
   const imageY = useTransform(scrollY, [0, 700], [0, -90]);
 
@@ -181,9 +181,9 @@ function Hero() {
             <Button
               size="lg"
               className="rounded-none text-base h-14 px-8 bg-primary hover:bg-primary/90"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={onBookConsultation}
             >
-              Discuss Your Challenge
+              Book a Consultation
             </Button>
             <Button
               size="lg"
@@ -443,7 +443,7 @@ function Approach() {
   );
 }
 
-function Contact() {
+function Contact({ activeTab, onTabChange }: { activeTab: "book" | "message"; onTabChange: (t: "book" | "message") => void }) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
@@ -484,6 +484,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 md:py-32 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+        {/* Left column */}
         <div>
           <FadeIn>
             <h2 className="text-4xl md:text-6xl font-serif text-primary mb-6">Let's discuss your operations.</h2>
@@ -503,53 +504,99 @@ function Contact() {
           </FadeIn>
         </div>
 
+        {/* Right column — tabbed panel */}
         <FadeIn delay={0.2}>
-          <div className="bg-white p-8 md:p-12 border border-border shadow-sm">
-            {succeeded ? (
-              <div className="flex flex-col items-center justify-center h-full py-16 text-center space-y-4">
-                <CheckCircle2 className="w-12 h-12 text-accent" />
-                <h3 className="text-2xl font-serif text-primary">Message received.</h3>
-                <p className="text-muted-foreground">One of our senior partners will contact you within 24 hours.</p>
+          <div className="border border-border shadow-sm">
+            {/* Tab switcher */}
+            <div className="flex border-b border-border">
+              <button
+                onClick={() => onTabChange("book")}
+                className={`flex items-center gap-2 flex-1 justify-center py-4 text-sm font-semibold uppercase tracking-widest transition-colors ${
+                  activeTab === "book"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-muted-foreground hover:text-primary"
+                }`}
+              >
+                <CalendarDays className="w-4 h-4" />
+                Book a Consultation
+              </button>
+              <button
+                onClick={() => onTabChange("message")}
+                className={`flex items-center gap-2 flex-1 justify-center py-4 text-sm font-semibold uppercase tracking-widest transition-colors border-l border-border ${
+                  activeTab === "message"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-background text-muted-foreground hover:text-primary"
+                }`}
+              >
+                <Mail className="w-4 h-4" />
+                Send a Message
+              </button>
+            </div>
+
+            {/* Tab: Book a Consultation (Coachli embed) */}
+            {activeTab === "book" && (
+              <div className="bg-background">
+                <iframe
+                  src="https://www.coachli.co/temidayodaodu"
+                  title="Book a Consultation with TD Advisory"
+                  className="w-full border-0"
+                  style={{ height: "640px" }}
+                  loading="lazy"
+                  allow="payment"
+                />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
-                    <Input id="name" name="name" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+            )}
+
+            {/* Tab: Send a Message (enquiry form) */}
+            {activeTab === "message" && (
+              <div className="bg-white p-8 md:p-12">
+                {succeeded ? (
+                  <div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
+                    <CheckCircle2 className="w-12 h-12 text-accent" />
+                    <h3 className="text-2xl font-serif text-primary">Message received.</h3>
+                    <p className="text-muted-foreground">One of our senior partners will contact you within 24 hours.</p>
                   </div>
-                  <div className="space-y-2">
-                    <label htmlFor="company" className="text-sm font-medium text-primary">Company</label>
-                    <Input id="company" name="company" className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-primary">Work Email</label>
-                  <Input id="email" name="email" type="email" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
-                  <Select onValueChange={setInterest}>
-                    <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
-                      <SelectValue placeholder="Select a practice area" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-none">
-                      <SelectItem value="Operations Consulting">Operations Consulting</SelectItem>
-                      <SelectItem value="Laboratory Management (ISO 15189)">Laboratory Management (ISO 15189)</SelectItem>
-                      <SelectItem value="Human Resources Support">Human Resources Support</SelectItem>
-                      <SelectItem value="General Enquiry">General Enquiry</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium text-primary">Brief Description of Needs</label>
-                  <Textarea id="message" name="message" required className="rounded-none min-h-[120px] bg-background border-border focus-visible:ring-primary focus-visible:border-primary resize-y" />
-                </div>
-                <Button type="submit" disabled={isSubmitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
-                  {isSubmitting ? "Sending..." : "Submit Enquiry"}
-                  {!isSubmitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-                </Button>
-              </form>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
+                        <Input id="name" name="name" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="company" className="text-sm font-medium text-primary">Company</label>
+                        <Input id="company" name="company" className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="email" className="text-sm font-medium text-primary">Work Email</label>
+                      <Input id="email" name="email" type="email" required className="rounded-none h-12 bg-background border-border focus-visible:ring-primary focus-visible:border-primary" />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
+                      <Select onValueChange={setInterest}>
+                        <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
+                          <SelectValue placeholder="Select a practice area" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-none">
+                          <SelectItem value="Operations Consulting">Operations Consulting</SelectItem>
+                          <SelectItem value="Laboratory Management (ISO 15189)">Laboratory Management (ISO 15189)</SelectItem>
+                          <SelectItem value="Human Resources Support">Human Resources Support</SelectItem>
+                          <SelectItem value="General Enquiry">General Enquiry</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="message" className="text-sm font-medium text-primary">Brief Description of Needs</label>
+                      <Textarea id="message" name="message" required className="rounded-none min-h-[120px] bg-background border-border focus-visible:ring-primary focus-visible:border-primary resize-y" />
+                    </div>
+                    <Button type="submit" disabled={isSubmitting} className="w-full rounded-none h-14 text-base bg-primary hover:bg-primary/90 mt-4 group">
+                      {isSubmitting ? "Sending..." : "Submit Enquiry"}
+                      {!isSubmitting && <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                    </Button>
+                  </form>
+                )}
+              </div>
             )}
           </div>
         </FadeIn>
@@ -593,16 +640,25 @@ function Footer() {
 }
 
 function Home() {
+  const [contactTab, setContactTab] = useState<"book" | "message">("book");
+
+  const openBooking = () => {
+    setContactTab("book");
+    setTimeout(() => {
+      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
+  };
+
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-white">
       <Navbar />
       <main>
-        <Hero />
+        <Hero onBookConsultation={openBooking} />
         <Ethos />
         <Practices />
         <Services />
         <Approach />
-        <Contact />
+        <Contact activeTab={contactTab} onTabChange={setContactTab} />
       </main>
       <Footer />
     </div>
