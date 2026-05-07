@@ -404,6 +404,43 @@ function Services() {
   );
 }
 
+function Clients() {
+  const clients = [
+    { name: "Débbo Africa", logo: "/debbo-africa-logo.svg", url: "https://www.debbo.africa", width: 160 },
+    { name: "Clafiya", logo: "/clafiya-logo.png", url: "https://hsa.clafiya.com", width: 120 },
+  ];
+
+  return (
+    <section className="py-20 bg-background px-6 border-y border-primary/10">
+      <div className="max-w-7xl mx-auto">
+        <FadeIn>
+          <p className="text-center text-sm uppercase tracking-widest text-accent font-bold mb-12">
+            Organisations We've Worked With
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-16 md:gap-24">
+            {clients.map((client) => (
+              <a
+                key={client.name}
+                href={client.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="opacity-70 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+                title={client.name}
+              >
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  style={{ width: client.width, height: "auto", maxHeight: 48, objectFit: "contain" }}
+                />
+              </a>
+            ))}
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 function Approach() {
   const steps = [
     { num: "01", title: "Discovery & Audit", desc: "We spend time on your floor, not just in your boardroom. We map the reality of your current state." },
@@ -657,6 +694,7 @@ function Home() {
         <Ethos />
         <Practices />
         <Services />
+        <Clients />
         <Approach />
         <Contact activeTab={contactTab} onTabChange={setContactTab} />
       </main>
