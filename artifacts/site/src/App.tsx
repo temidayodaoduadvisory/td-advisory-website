@@ -408,6 +408,7 @@ function Clients() {
   const clients = [
     { name: "Débbo Africa", logo: "/debbo-africa-logo.svg", url: "https://www.debbo.africa", width: 160 },
     { name: "Clafiya", logo: "/clafiya-logo.png", url: "https://hsa.clafiya.com", width: 120 },
+    { name: "Preorder with Seye", logo: "/preorderwithseye-logo.png", url: "https://www.preorderwithseye.com", width: 140 },
   ];
 
   return (
