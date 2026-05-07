@@ -671,7 +671,7 @@ function Footer() {
       </div>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/40">
         <p>© {new Date().getFullYear()} TD Advisory LLC. All rights reserved.</p>
-        <p className="mt-4 md:mt-0">Designed for operational excellence.</p>
+
       </div>
     </footer>
   );
