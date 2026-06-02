@@ -35,3 +35,9 @@ id = "upgiE16ksa0O8aeaqj4WY"
 uri = "file://.local/outputs/TD-Advisory-Website.pptx"
 type = "slides"
 title = "TD Advisory Website.pptx"
+
+[[outputs]]
+id = "3ViXJ5ral6t4RNK5MwTQk"
+uri = "file://.local/outputs/TD-Advisory-Website.pdf"
+type = "pdf"
+title = "TD Advisory Website.pdf"
