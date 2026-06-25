@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, CheckCircle2, ChevronRight, Menu, X, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { ArrowRight, CheckCircle2, Menu, X, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useForm } from "@formspree/react";
 import { FORMSPREE_FORM_ID, FORMSPREE_EMAIL_SUBJECT } from "@/config/formspree";
 
