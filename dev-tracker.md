@@ -58,11 +58,21 @@ vitest (7) · build · playwright+axe (10).
 - [ ] Open PR from `migrate/vercel-static`; confirm CI green.
 - [ ] Settings → Branches → protect `main`, require the **CI** check.
 
-### Domain (Phase 6 — Namecheap)
-- [ ] In Vercel, add `tdadvisory.co` + `www.tdadvisory.co` (apex primary, `www` redirect).
-- [ ] Namecheap Advanced DNS: `A @ → 76.76.21.21`, `CNAME www → cname.vercel-dns.com`.
-- [ ] **Leave MX / SPF / TXT (email) records untouched.**
-- [ ] Wait for SSL + propagation; verify `https://tdadvisory.co` on Chrome; `www` redirects.
+### Domain (Phase 6 — Namecheap)  ← discovered state (2026-06-25)
+Vercel project `tdadvisory-co` (Hobby) already exists, repo connected, `tdadvisory.co`
+assigned to Production but **Invalid Configuration** — because DNS still points to Replit.
+- Current apex/www → `34.111.179.208` (Replit/GCP, returns 404 — dead Replit app).
+- **Email is on Zoho:** MX `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com` — DO NOT TOUCH
+  these or any Zoho SPF/DKIM TXT records.
+- **Vercel wants:** `A @ → 216.198.79.1` (current recommended; old `76.76.21.21` also works).
+
+Steps (only AFTER new build is live on `main` + verified on the *.vercel.app URL):
+- [ ] Namecheap Advanced DNS: change `A @` from `34.111.179.208` → **`216.198.79.1`**.
+- [ ] For `www`: add `www.tdadvisory.co` in Vercel (redirect to apex) + `CNAME www →
+      cname.vercel-dns.com`, replacing the Replit value.
+- [ ] **Leave Zoho MX / SPF / DKIM TXT untouched.**
+- [ ] In Vercel Domains, click **Refresh**; wait for "Valid Configuration" + SSL.
+- [ ] Verify `https://tdadvisory.co` serves the new build on Chrome; `www` redirects.
 
 ## Blockers / open questions
 
