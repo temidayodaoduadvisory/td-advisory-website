@@ -35,11 +35,24 @@ vitest (7) · build · playwright+axe (10).
 - [ ] Create form, capture **form id** and set recipient → `enquiries@tdadvisory.co`.
 - [ ] Provide id for `VITE_FORMSPREE_FORM_ID` (local `.env.local` + Vercel env).
 
+### Bootstrap order (do this first)
+1. [ ] `git push -u origin migrate/vercel-static`.
+2. [ ] Open PR; confirm **CI** is green.
+3. [ ] Merge PR → `main` (first merge; no protection yet). `main` now has the static build + ci.yml.
+4. [ ] Settings → Branches → protect `main`, require the **CI** check (for future changes).
+
+> Why merge before importing to Vercel: the new static build must be on `main` so
+> Vercel's first **production** deploy succeeds (old `main` fails without PORT/BASE_PATH).
+
 ### Vercel (Phase 5)
-- [ ] Create Hobby account; **Import** the GitHub repo.
-- [ ] Settings → **Root Directory = `artifacts/site`** (framework Vite auto-detected).
-- [ ] Add env var **`VITE_FORMSPREE_FORM_ID`** (Production + Preview).
-- [ ] Confirm preview `*.vercel.app` builds; verify on Chrome; submit form → email arrives.
+- [ ] Create Hobby account → **Add New… → Project → Import** `td-advisory-website`.
+- [ ] **Root Directory = `artifacts/site`** (click *Edit* on import; framework auto-detects Vite).
+      Build/output come from `artifacts/site/vercel.json` (`pnpm run build` → `dist/public`).
+- [ ] If the build can't resolve workspace deps, enable
+      **"Include files outside the Root Directory in the Build Step."**
+- [ ] Add env var **`VITE_FORMSPREE_FORM_ID`** (Production + Preview) — placeholder ok until
+      the Formspree form exists; redeploy after setting the real id.
+- [ ] Deploy; share the `*.vercel.app` URL → verify on Chrome (Claude can drive this).
 
 ### GitHub
 - [ ] Open PR from `migrate/vercel-static`; confirm CI green.
