@@ -10,7 +10,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, CheckCircle2, ChevronRight, Menu, X, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useForm } from "@formspree/react";
+import { FORMSPREE_FORM_ID, FORMSPREE_EMAIL_SUBJECT } from "@/config/formspree";
 
 // Image imports
 import heroImg from "./assets/hero.png";
@@ -78,7 +80,12 @@ function Navbar() {
         </div>
 
         {/* Mobile Nav Toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          className="md:hidden text-foreground"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+        >
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -481,43 +488,22 @@ function Approach() {
   );
 }
 
-function Contact({ activeTab, onTabChange }: { activeTab: "book" | "message"; onTabChange: (t: "book" | "message") => void }) {
+export function Contact({ activeTab, onTabChange }: { activeTab: "book" | "message"; onTabChange: (t: "book" | "message") => void }) {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [succeeded, setSucceeded] = useState(false);
+  const [state, handleSubmit] = useForm(FORMSPREE_FORM_ID);
   const [interest, setInterest] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const form = e.currentTarget;
-    const data = new FormData(form);
+  const { submitting: isSubmitting, succeeded, errors } = state;
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          company: data.get("company"),
-          email: data.get("email"),
-          interest,
-          message: data.get("message"),
-        }),
+  useEffect(() => {
+    if (errors) {
+      toast({
+        title: "Something went wrong.",
+        description: "Please try again, or email us directly.",
+        variant: "destructive",
       });
-
-      if (res.ok) {
-        setSucceeded(true);
-      } else {
-        const { error } = await res.json();
-        toast({ title: "Something went wrong.", description: error || "Please try again.", variant: "destructive" });
-      }
-    } catch {
-      toast({ title: "Network error.", description: "Please check your connection and try again.", variant: "destructive" });
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  }, [errors, toast]);
 
   return (
     <section id="contact" className="py-24 md:py-32 px-6">
@@ -596,6 +582,10 @@ function Contact({ activeTab, onTabChange }: { activeTab: "book" | "message"; on
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Radix Select has no native input, so mirror its value
+                        and the email subject into hidden fields for Formspree. */}
+                    <input type="hidden" name="interest" value={interest} />
+                    <input type="hidden" name="_subject" value={FORMSPREE_EMAIL_SUBJECT} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label htmlFor="name" className="text-sm font-medium text-primary">Full Name</label>
@@ -612,8 +602,8 @@ function Contact({ activeTab, onTabChange }: { activeTab: "book" | "message"; on
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="interest" className="text-sm font-medium text-primary">Area of Interest</label>
-                      <Select onValueChange={setInterest}>
-                        <SelectTrigger className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
+                      <Select value={interest} onValueChange={setInterest}>
+                        <SelectTrigger id="interest" className="rounded-none h-12 bg-background border-border focus:ring-primary focus:border-primary">
                           <SelectValue placeholder="Select a practice area" />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
