@@ -1,88 +1,56 @@
 # Dev Tracker — Replit → Vercel migration
 
-Living status doc. Updated as work proceeds. See [`migration-plan.md`](./migration-plan.md)
-for the full spec.
+Status doc for the migration. See [`migration-plan.md`](./migration-plan.md) for the spec.
 
-**Branch:** `migrate/vercel-static` → PR into `main`.
-**Local gate (all green on Node 22 / Apple Silicon):** typecheck · typecheck:test ·
-vitest (7) · build · playwright+axe (10).
+**Outcome:** ✅ Live at **https://tdadvisory.co** on Vercel (Hobby), free hosting,
+auto-deploy on push to `main`. Replit no longer needed.
 
 ## Status by phase
 
 | Phase | Status | Notes |
 |---|---|---|
 | 0. Working docs | ✅ Done | `migration-plan.md`, `dev-tracker.md`, `CLAUDE.md`. |
-| 1. Standalone static build | ✅ Done | vite.config de-Replit'd; Node 22 pinned; darwin-arm64 binaries restored. |
-| 2. Formspree swap | ✅ Done | UI unchanged; hidden `interest`/`_subject`; a11y fixes. |
-| 3. Tests (Vitest + Playwright + axe) | ✅ Done | 7 unit + 10 E2E, all on Chrome. |
-| 4. CI (GitHub Actions) | ✅ Done | `.github/workflows/ci.yml`. Needs branch protection (manual). |
-| 5. Vercel project | ⏳ Blocked on you | Needs Vercel account + Formspree id. `vercel.json` ready. |
-| 6. Domain cutover | ⏳ Blocked on you | Needs Namecheap DNS edit. |
-| 7. Dead-code cleanup | ⬜ Pending | After live & green. |
+| 1. Standalone static build | ✅ Done | vite.config de-Replit'd; Node 22 pinned; cross-platform binaries. |
+| 2. Formspree swap | ✅ Done | `@formspree/react`, form id `xaqaanbr`; UI unchanged; a11y fixes. |
+| 3. Tests (Vitest + Playwright + axe) | ✅ Done | 7 unit + 10 E2E on Chrome. |
+| 4. CI (GitHub Actions) | ✅ Done | `ci.yml` gates `main`; branch protection enabled (require CI, PR, no force-push). |
+| 5. Vercel project | ✅ Done | Reconnected to `temidayodaoduadvisory/td-advisory-website`; Root Directory `artifacts/site`; `VITE_FORMSPREE_FORM_ID` set; auto-deploy working. |
+| 6. Domain cutover | ✅ Done | Namecheap `A @ → 216.198.79.1`, `CNAME www → cname.vercel-dns.com`; Zoho MX preserved; HTTPS live; `www` → apex (307). |
+| 7. Dead-code cleanup | ✅ Done | Removed `api-server`, `td-advisory-deck`, `mockup-sandbox`, `lib/db`, `lib/api-*`, `scripts`, Replit config + deps. `artifacts/site` is the only package. |
 
-## Verified so far
+## How it's wired (final)
 
-- [x] `pnpm --filter @workspace/site build` → emits `dist/public` (no Replit/env coupling).
-- [x] `typecheck` + `typecheck:test` pass.
-- [x] Vitest: 7 component tests pass (render, submit, success/error/submitting, hidden fields).
-- [x] Playwright on Chrome: 10 pass (home render, sections, nav scroll, 404, contact
-      success/interest/error/validation, 2× axe WCAG2 A/AA).
-- [x] `pnpm install --frozen-lockfile` clean (CI parity).
+- **Repo:** `github.com/temidayodaoduadvisory/td-advisory-website` (single package: `artifacts/site`).
+- **Host:** Vercel project `tdadvisory-co` (Hobby). Root Directory `artifacts/site`,
+  Vite preset, output `dist/public`, SPA rewrite via `artifacts/site/vercel.json`.
+- **Env:** `VITE_FORMSPREE_FORM_ID` (Production + Preview).
+- **Deploy:** push to `main` → Vercel builds & deploys prod; PRs get preview URLs.
+- **DNS (Namecheap):** `A @ → 216.198.79.1`, `CNAME www → cname.vercel-dns.com`.
+  Email on **Zoho** (MX/SPF/DKIM untouched).
+- **Protection:** `*.vercel.app` preview URLs are behind Vercel login (Standard Protection);
+  the production custom domain is public.
 
-## Remaining manual steps (need credentials / account access)
+## Verified
 
-### Formspree
-- [ ] Create form, capture **form id** and set recipient → `enquiries@tdadvisory.co`.
-- [ ] Provide id for `VITE_FORMSPREE_FORM_ID` (local `.env.local` + Vercel env).
+- [x] Local: typecheck, typecheck:test, vitest (7), site build, **root build**, root typecheck, playwright (10) — all green.
+- [x] `pnpm install --frozen-lockfile` clean.
+- [x] CI green on PR; `main` branch-protected.
+- [x] `https://tdadvisory.co` serves the new build over HTTPS; `www` redirects; MX still Zoho.
+- [x] Contact form submits to Formspree and delivers email (user-tested).
 
-### Bootstrap order (do this first)
-1. [ ] `git push -u origin migrate/vercel-static`.
-2. [ ] Open PR; confirm **CI** is green.
-3. [ ] Merge PR → `main` (first merge; no protection yet). `main` now has the static build + ci.yml.
-4. [ ] Settings → Branches → protect `main`, require the **CI** check (for future changes).
+## Optional follow-ups (not blocking)
 
-> Why merge before importing to Vercel: the new static build must be on `main` so
-> Vercel's first **production** deploy succeeds (old `main` fails without PORT/BASE_PATH).
-
-### Vercel (Phase 5)
-- [ ] Create Hobby account → **Add New… → Project → Import** `td-advisory-website`.
-- [ ] **Root Directory = `artifacts/site`** (click *Edit* on import; framework auto-detects Vite).
-      Build/output come from `artifacts/site/vercel.json` (`pnpm run build` → `dist/public`).
-- [ ] If the build can't resolve workspace deps, enable
-      **"Include files outside the Root Directory in the Build Step."**
-- [ ] Add env var **`VITE_FORMSPREE_FORM_ID`** (Production + Preview) — placeholder ok until
-      the Formspree form exists; redeploy after setting the real id.
-- [ ] Deploy; share the `*.vercel.app` URL → verify on Chrome (Claude can drive this).
-
-### GitHub
-- [ ] Open PR from `migrate/vercel-static`; confirm CI green.
-- [ ] Settings → Branches → protect `main`, require the **CI** check.
-
-### Domain (Phase 6 — Namecheap)  ← discovered state (2026-06-25)
-Vercel project `tdadvisory-co` (Hobby) already exists, repo connected, `tdadvisory.co`
-assigned to Production but **Invalid Configuration** — because DNS still points to Replit.
-- Current apex/www → `34.111.179.208` (Replit/GCP, returns 404 — dead Replit app).
-- **Email is on Zoho:** MX `mx.zoho.com`, `mx2.zoho.com`, `mx3.zoho.com` — DO NOT TOUCH
-  these or any Zoho SPF/DKIM TXT records.
-- **Vercel wants:** `A @ → 216.198.79.1` (current recommended; old `76.76.21.21` also works).
-
-Steps (only AFTER new build is live on `main` + verified on the *.vercel.app URL):
-- [ ] Namecheap Advanced DNS: change `A @` from `34.111.179.208` → **`216.198.79.1`**.
-- [ ] For `www`: add `www.tdadvisory.co` in Vercel (redirect to apex) + `CNAME www →
-      cname.vercel-dns.com`, replacing the Replit value.
-- [ ] **Leave Zoho MX / SPF / DKIM TXT untouched.**
-- [ ] In Vercel Domains, click **Refresh**; wait for "Valid Configuration" + SSL.
-- [ ] Verify `https://tdadvisory.co` serves the new build on Chrome; `www` redirects.
-
-## Blockers / open questions
-
-- Formspree form id required before the contact form works in any deployed environment.
-- Confirm whether `@tdadvisory.co` still receives mail (it almost certainly does — preserve MX).
+- Stale DNS records in Namecheap can be deleted: `replit-verify` TXT on `@` and `www`,
+  and the old Resend/SES sending records (`resend._domainkey`, `send.enquiries` SPF) —
+  the site no longer uses Resend. Leave all **Zoho** records.
+- `@tanstack/react-query` is still imported in `App.tsx` as a provider but makes no queries;
+  could be removed if desired (touches `App.tsx`).
 
 ## Decision log
 
-- Contact form → Formspree (drop Express/Resend backend). Site becomes pure static.
-- Keep monorepo; remove dead code only after go-live (Phase 7).
-- DNS via Namecheap A/CNAME (not Vercel nameservers) to protect email.
-- Node 22 chosen over Replit's 24 for Vercel/CI compatibility.
-- axe `color-contrast` excluded (design-owned; out of scope for migration).
+- Contact form → Formspree (dropped Express/Resend backend). Site is pure static.
+- DNS via Namecheap A/CNAME (not Vercel nameservers) to protect Zoho email.
+- Node 22 for Vercel/CI compatibility.
+- axe `color-contrast` excluded (design-owned).
+- Vercel project was wired to the wrong repo (`-oss/tdadvisory.co`) via manual upload;
+  reconnected to the real repo + scoped Root Directory to fix auto-deploy.

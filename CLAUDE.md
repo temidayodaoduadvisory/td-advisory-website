@@ -13,10 +13,10 @@ Replit; it now deploys to **Vercel** from GitHub, with DNS at **Namecheap**.
 - The deployable site is **`artifacts/site`** — React 19 + Vite 7 + Wouter + Tailwind 4.
 - The contact form posts to **Formspree** (`@formspree/react`), not to any server.
   Do **not** reintroduce a backend / `/api/*` calls for the form.
-- `artifacts/api-server`, `lib/db`, `artifacts/mockup-sandbox`, and
-  `artifacts/td-advisory-deck` are **legacy/unused** by the live site and are slated for
-  removal (see `dev-tracker.md`, Phase 7). Don't build new work on them.
-- The repo is a pnpm workspace; only `artifacts/site` ships to production.
+- It's a pnpm workspace, but **`artifacts/site` is the only package**. The old backend
+  (`api-server`), API contract libs (`lib/api-*`), database (`lib/db`), the presentation
+  deck, the mockup sandbox, the `scripts` helper, and all Replit config were removed in
+  the dead-code cleanup. Don't resurrect them.
 
 ## Commands (run from repo root)
 

@@ -44,11 +44,12 @@ and free to host.
    a11y fixes (viewport zoom, Select label, menu button name). ✅
 3. **Tests** — Vitest component tests + Playwright/axe E2E on Chrome (10 specs). ✅
 4. **CI** — `.github/workflows/ci.yml` (typecheck + unit + build + Playwright/axe). ✅
-5. **Vercel project** *(guided, needs your account)* — connect repo, Root Directory
-   `artifacts/site`, set `VITE_FORMSPREE_FORM_ID`, verify preview on Chrome.
-6. **Domain cutover** *(guided, needs Namecheap)* — add domain in Vercel; set
-   `A @ → 76.76.21.21` + `CNAME www → cname.vercel-dns.com`; preserve MX; verify HTTPS.
-7. **Dead-code cleanup** — remove legacy artifacts/libs/deps + Replit files; re-verify.
+5. **Vercel project** — repo connected, Root Directory `artifacts/site`,
+   `VITE_FORMSPREE_FORM_ID` set, auto-deploy working. ✅
+6. **Domain cutover** — Namecheap `A @ → 216.198.79.1` + `CNAME www → cname.vercel-dns.com`;
+   Zoho MX preserved; `https://tdadvisory.co` live. ✅
+7. **Dead-code cleanup** — removed legacy artifacts/libs/deps + Replit files; `artifacts/site`
+   is the only package; re-verified green. ✅
 
 ## What we need from you (credentials / account actions)
 
