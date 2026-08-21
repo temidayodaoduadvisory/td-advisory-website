@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +18,7 @@ import { ArrowRight, CheckCircle2, ArrowUpRight, CalendarDays, Mail } from "luci
 import { useState, useEffect } from "react";
 import { useForm } from "@formspree/react";
 import { FORMSPREE_FORM_ID, FORMSPREE_EMAIL_SUBJECT } from "@/config/formspree";
+import { HOME_TEASER, PLAYBOOK_PATH } from "@/content/playbook";
 
 // Image imports
 import heroImg from "./assets/hero.png";
@@ -556,6 +557,39 @@ export function Contact({ activeTab, onTabChange }: { activeTab: "book" | "messa
   );
 }
 
+function PlaybookTeaser() {
+  return (
+    <section className="py-8 md:py-12 px-6 bg-secondary">
+      <div className="max-w-7xl mx-auto">
+        <FadeIn>
+          <div className="bg-background border border-border p-8 md:p-12 flex flex-col lg:flex-row gap-10 lg:gap-16 lg:items-center">
+            <div className="lg:flex-1">
+              <span className="text-accent uppercase tracking-widest text-xs font-bold mb-4 block">
+                {HOME_TEASER.eyebrow}
+              </span>
+              <h2 className="font-serif text-3xl md:text-4xl text-primary mb-4">
+                {HOME_TEASER.heading}
+              </h2>
+              <p className="text-muted-foreground leading-relaxed max-w-xl">
+                {HOME_TEASER.body}
+              </p>
+            </div>
+            <div className="shrink-0">
+              <Link
+                href={PLAYBOOK_PATH}
+                className="inline-flex items-center gap-2 h-14 px-8 bg-primary text-primary-foreground text-base font-medium hover:bg-primary/90 transition-colors group"
+              >
+                {HOME_TEASER.link}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 function Home() {
   const [contactTab, setContactTab] = useState<"book" | "message">("book");
 
@@ -577,6 +611,7 @@ function Home() {
         <Ethos />
         <Practices />
         <Services />
+        <PlaybookTeaser />
         <Clients />
         <Approach />
         <Contact activeTab={contactTab} onTabChange={setContactTab} />
