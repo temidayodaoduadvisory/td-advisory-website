@@ -3,5 +3,26 @@
   "framework": "vite",
   "buildCommand": "pnpm run build",
   "outputDirectory": "dist/public",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/playbook",
+      "destination": "/playbook/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/startup-operations-playbook",
+      "destination": "/playbook",
+      "permanent": true
+    },
+    {
+      "source": "/startup-playbook",
+      "destination": "/playbook",
+      "permanent": true
+    }
+  ]
 }
