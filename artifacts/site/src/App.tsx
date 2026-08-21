@@ -5,11 +5,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import NotFound from "@/pages/not-found";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { FadeIn, RevealText } from "@/components/motion";
+import { useHashScroll } from "@/components/section-nav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, CheckCircle2, Menu, X, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
+import { ArrowRight, CheckCircle2, ArrowUpRight, CalendarDays, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useForm } from "@formspree/react";
 import { FORMSPREE_FORM_ID, FORMSPREE_EMAIL_SUBJECT } from "@/config/formspree";
@@ -21,88 +25,6 @@ import qualityImg from "./assets/quality.png";
 import hrImg from "./assets/hr.png";
 
 const queryClient = new QueryClient();
-
-function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function RevealText({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, filter: "blur(4px)", y: 20 }}
-      whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: "easeOut", delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const scrollTo = (id: string) => {
-    setIsOpen(false);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <div className="font-serif text-2xl tracking-tighter text-primary font-semibold">
-          TD Advisory.
-        </div>
-        
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          <button onClick={() => scrollTo("ethos")} className="text-sm font-medium hover:text-accent transition-colors">Home</button>
-          <button onClick={() => scrollTo("practices")} className="text-sm font-medium hover:text-accent transition-colors">About</button>
-          <button onClick={() => scrollTo("services")} className="text-sm font-medium hover:text-accent transition-colors">Services</button>
-          <button onClick={() => scrollTo("approach")} className="text-sm font-medium hover:text-accent transition-colors">Approach</button>
-          <Button onClick={() => scrollTo("contact")} className="bg-primary text-primary-foreground rounded-none px-6 hover:bg-primary/90">
-            Book a Consultation
-          </Button>
-        </div>
-
-        {/* Mobile Nav Toggle */}
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-        >
-          {isOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border p-6 flex flex-col gap-6 shadow-xl">
-          <button onClick={() => scrollTo("ethos")} className="text-lg font-serif text-left">Home</button>
-          <button onClick={() => scrollTo("practices")} className="text-lg font-serif text-left">About</button>
-          <button onClick={() => scrollTo("services")} className="text-lg font-serif text-left">Services</button>
-          <button onClick={() => scrollTo("approach")} className="text-lg font-serif text-left">Approach</button>
-          <Button onClick={() => scrollTo("contact")} className="w-full rounded-none">Book a Consultation</Button>
-        </div>
-      )}
-    </nav>
-  );
-}
 
 function Hero({ onBookConsultation }: { onBookConsultation: () => void }) {
   const { scrollY } = useScroll();
@@ -633,42 +555,11 @@ export function Contact({ activeTab, onTabChange }: { activeTab: "book" | "messa
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-primary text-primary-foreground py-16 px-6">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center md:items-start gap-8 border-b border-primary-foreground/10 pb-16 mb-8">
-        <div>
-          <div className="font-serif text-3xl tracking-tighter font-semibold mb-6">
-            TD Advisory.
-          </div>
-          <p className="text-primary-foreground/60 max-w-sm">
-            Grounded expertise for mid-market operations. Measurable results, sustained by your team.
-          </p>
-        </div>
-        <div className="flex gap-16">
-          <div className="flex flex-col gap-3">
-            <h5 className="font-bold uppercase tracking-widest text-accent text-xs mb-2">Menu</h5>
-            <button onClick={() => document.getElementById("ethos")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Home</button>
-            <button onClick={() => document.getElementById("practices")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">About</button>
-            <button onClick={() => document.getElementById("approach")?.scrollIntoView({ behavior: "smooth" })} className="text-primary-foreground/80 hover:text-white text-left transition-colors">Approach</button>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h5 className="font-bold uppercase tracking-widest text-accent text-xs mb-2">Legal</h5>
-            <a href="#" className="text-primary-foreground/80 hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="text-primary-foreground/80 hover:text-white transition-colors">Terms of Service</a>
-          </div>
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-primary-foreground/40">
-        <p>© {new Date().getFullYear()} TD Advisory LLC. All rights reserved.</p>
-
-      </div>
-    </footer>
-  );
-}
-
 function Home() {
   const [contactTab, setContactTab] = useState<"book" | "message">("book");
+
+  // Lands an off-home nav click (e.g. "/#services" from /playbook) on its section.
+  useHashScroll();
 
   const openBooking = () => {
     setContactTab("book");
