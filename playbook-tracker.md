@@ -24,6 +24,7 @@ TD Advisory never handles payment or fulfilment.
 | 8. MPA meta + redirects | ✅ Done | Build emits `dist/public/playbook/index.html` with own OG tags; `vercel.json` rewrite + 2 redirects. |
 | 9. Tests | ✅ Done | 7 Vitest + 15 Playwright (4 new + axe on `/playbook`). All green, no regressions. |
 | 10. Launch | ⬜ **Blocked** | Waiting on the 3 real Nestuge URLs. Nothing merged to `main`. |
+| 11. Footer legal links | ✅ Done | `/privacy` + `/terms` routes, pages, MPA entries, rewrites and tests. Real Privacy Policy + Terms and Conditions supplied and transferred verbatim; both dated 21 Aug 2026 and indexable. |
 
 ## Page structure
 
@@ -70,6 +71,10 @@ Home page gains a contained teaser band between `Services` and `Clients`.
 | 20 | Canonical `/playbook`, longer slugs 301 in | Short link is what actually gets shared and said aloud; URL keywords carry little SEO weight. |
 | 21 | Pricing cards only — no comparison matrix | The matrix held no information the cumulative card lists don't; avoids duplicated content and a 4-column table on a 375px phone. |
 | 23 | Product renamed to **The Scalable Startup Operating System**; "Playbook" kept as the core component | The cover art is authoritative. The OS is the product; it's delivered as the Playbook (8-module guide) + Implementation Toolkit + optional advisory — which is exactly what the three tiers sell, so tier names and the cumulative framing survive intact. |
+| 24 | Footer legal links → real `/privacy` + `/terms` routes | User chose real routes over external hosting or removal: a paid product handoff needs policy URLs on our own domain. Text is a legal decision, so the pages ship as an honest scaffold that says so, rather than inventing binding wording or leaving `href="#"`. Shipped first as structure with placeholder text and `noindex`; real copy landed the same day and both were lifted. |
+| 25 | Supplied legal copy transferred **verbatim**, product-name mismatch left in place | The text is binding and TD Advisory-approved. Correcting a product name inside it is a legal edit, not a typo fix, so it stays as written and is tracked as an open item instead. Ordering, numbering and British spellings are the client's. |
+| 26 | Clause anchors + `useHashScroll` on legal pages | Legal documents get cited and linked by clause. The browser's native hash scroll fires before React renders, so `/terms#refund-policy` landed nowhere until the existing hook was reused here. Caught by E2E, not by review. |
+| 27 | `CHECKOUT_CONSENT` exported but never rendered | The supplied consent line is first-person ("I confirm that I have read…"), so it is checkout copy for Nestuge, where payment happens. Kept in the repo so the agreed wording has one home. |
 | 22 | Explicit `/playbook` rewrite + preview middleware | `vite preview` answered `/playbook` with the SPA fallback, so E2E was exercising a routing model production doesn't use. Both sides now match. |
 
 ## Corrections applied to the supplied copy
@@ -99,6 +104,15 @@ Home page gains a contained teaser band between `Services` and `Clients`.
 - [ ] Confirm the refund-policy FAQ answer matches what Nestuge actually enforces
 - [x] Real cover image supplied — `src/assets/playbook-cover.webp` (1.4 MB PNG → 43 KB WebP)
 - [x] Product name resolved — the artwork is authoritative. See decision 23.
+- [x] Real Privacy Policy and Terms and Conditions text — supplied and transferred verbatim
+      into `src/content/legal.ts`. Both dated 21 Aug 2026; `noindex` lifted.
+- [ ] 🚧 **Terms name the wrong product** — the supplied Terms say "The Startup Operations
+      Playbook"; the site sells "The Scalable Startup Operating System" (decision 23). Tier
+      names differ too ("Playbook Only" / "Playbook + Toolkit + Implementation Session" vs
+      "The Playbook" / "Implementation Partner Package"). Prices agree. Left as supplied by
+      decision 25 — TD Advisory revises the wording, then bump `lastUpdated`.
+- [ ] Give Nestuge the checkout consent line — `src/content/legal.ts` → `CHECKOUT_CONSENT`.
+      It is first-person buyer copy, so it belongs at checkout, not on our pages.
 - [ ] Optional: a playbook-specific `og:image` (1200×630) — currently reuses `/opengraph.jpg`
 
 ## Naming model
@@ -115,7 +129,10 @@ Home page gains a contained teaser band between `Services` and `Clients`.
 - No test asserting Nestuge hrefs / UTM params (decision 13).
 - No test asserting the MPA build emits `playbook/index.html` (decision 13) — if
   `vite.config.ts` regresses, OG previews break silently with tests green.
-- Footer `Privacy Policy` / `Terms of Service` links are still `href="#"` — separate task.
+- Footer legal links resolve to `/privacy` and `/terms`, carrying the real supplied
+  documents (phase 11). The Terms still name the old product — see "Open / waiting on user".
+- No test asserts the *wording* of either legal document, only its structure, dates and the
+  refund-window agreement with the FAQ. Wording is TD Advisory's to own, not CI's.
 - The home page `index.html` has **no** og:/twitter: tags at all (pre-existing; `public/opengraph.jpg`
   sits unused). Only `/playbook` has them. Out of scope here, worth a follow-up.
 - Home-page sections have no `scroll-mt`, so nav clicks land ~80px under the fixed navbar.
