@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import NotFound from "@/pages/not-found";
 import Playbook from "@/pages/playbook";
+import { Privacy, Terms } from "@/pages/legal";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -19,6 +20,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "@formspree/react";
 import { FORMSPREE_FORM_ID, FORMSPREE_EMAIL_SUBJECT } from "@/config/formspree";
 import { HOME_TEASER, PLAYBOOK_PATH } from "@/content/playbook";
+import { PRIVACY_PATH, TERMS_PATH } from "@/content/legal";
 
 // Image imports
 import heroImg from "./assets/hero.png";
@@ -629,6 +631,8 @@ function App() {
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/playbook" component={Playbook} />
+            <Route path={PRIVACY_PATH} component={Privacy} />
+            <Route path={TERMS_PATH} component={Terms} />
             <Route component={NotFound} />
           </Switch>
         </WouterRouter>
