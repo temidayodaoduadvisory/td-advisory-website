@@ -10,7 +10,11 @@ const DEV_SERVER_PORT = Number(process.env.PORT ?? 5173);
 // Extra multi-page entries beyond the root index.html. Each emits a real HTML
 // file with its own <title>/og: tags — link-preview crawlers (WhatsApp,
 // LinkedIn, X) don't run JS, so React-set metadata never reaches them.
-const MPA_ENTRIES = [{ name: "playbook", route: "/playbook" }];
+const MPA_ENTRIES = [
+  { name: "playbook", route: "/playbook" },
+  { name: "privacy", route: "/privacy" },
+  { name: "terms", route: "/terms" },
+];
 
 /**
  * Makes the dev and preview servers resolve an extensionless MPA route to its
