@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { useSectionNav } from "@/components/section-nav";
 import { PLAYBOOK_PATH } from "@/content/playbook";
+import { PRIVACY_PATH, TERMS_PATH } from "@/content/legal";
 
 export function Footer() {
   const goToSection = useSectionNav();
@@ -26,8 +27,8 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-3">
             <h5 className="font-bold uppercase tracking-widest text-accent text-xs mb-2">Legal</h5>
-            <a href="#" className="text-primary-foreground/80 hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="text-primary-foreground/80 hover:text-white transition-colors">Terms of Service</a>
+            <Link href={PRIVACY_PATH} className="text-primary-foreground/80 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href={TERMS_PATH} className="text-primary-foreground/80 hover:text-white transition-colors">Terms and Conditions</Link>
           </div>
         </div>
       </div>
