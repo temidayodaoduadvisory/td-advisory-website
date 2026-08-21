@@ -31,4 +31,28 @@ test.describe("Accessibility (axe)", () => {
 
     expect(violations).toEqual([]);
   });
+
+  test("playbook page has no WCAG A/AA violations", async ({ page }) => {
+    await page.goto("/playbook");
+
+    const { violations } = await new AxeBuilder({ page })
+      .withTags(WCAG_TAGS)
+      .disableRules(EXCLUDED_RULES)
+      .analyze();
+
+    expect(violations).toEqual([]);
+  });
+
+  for (const path of ["/privacy", "/terms"]) {
+    test(`${path} has no WCAG A/AA violations`, async ({ page }) => {
+      await page.goto(path);
+
+      const { violations } = await new AxeBuilder({ page })
+        .withTags(WCAG_TAGS)
+        .disableRules(EXCLUDED_RULES)
+        .analyze();
+
+      expect(violations).toEqual([]);
+    });
+  }
 });
