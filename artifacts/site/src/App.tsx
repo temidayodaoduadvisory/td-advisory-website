@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import NotFound from "@/pages/not-found";
+import Playbook from "@/pages/playbook";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -592,6 +593,7 @@ function App() {
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Switch>
             <Route path="/" component={Home} />
+            <Route path="/playbook" component={Playbook} />
             <Route component={NotFound} />
           </Switch>
         </WouterRouter>
