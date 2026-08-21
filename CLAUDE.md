@@ -56,3 +56,5 @@ pnpm --filter @workspace/site e2e              # Playwright E2E + axe (Chrome)
 
 - `migration-plan.md` — the canonical migration spec and decisions.
 - `dev-tracker.md` — live status, what's verified, and remaining manual steps.
+- `playbook-tracker.md` — the Startup Operations Playbook sales page (`/playbook`):
+  decisions, status, and open items. `playbook-copy-source.md` is the supplied copy.
